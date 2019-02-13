@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block main %}
+               <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="">
+                                            <h5>商品详情表 </h5>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <form action="/shoopinfo" method="POST" class="input-group">
+                                            <input type="text" placeholder="请输入商品名称" class="input-sm form-control" name="bookpn">
+                                            <span class="input-group-btn">
+                                            <input type="submit" class="btn btn-sm btn-primary" value="搜索"></span>
+                                         </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-lg-offset-6 col-sm-offset-5 col-xs-offset-5">
+                                    <a href="/add"><button type="button" class="btn  btn-primary btn-sm">添加</button></a>
+                                </div>
+                            </div>
+
+                        <div class="ibox-content ">
+
+                            <table class="table table-bordered text-center">
+                                <thead >
+                                <tr >
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">商品名称</th>
+                                    <th class="text-center">商品类别</th>
+									<th class="text-center">供货商</th>
+                                    <th class="text-center">进价/元</th>
+									<th class="text-center">零售价/元</th>
+                                    <th class="text-center">数量/件</th>
+									<th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for gs in u %}
+                                <tr>
+                                    <td>{{ gs.goodsid }}</td>
+                                    <td>{{ gs.goodsname }}</td>
+                                    <td>{{ gs.goodstype }}</td>
+									<td>{{ gs.goodsghs }}</td>
+                                    <td>{{ gs.intoprice }}</td>
+									<td>{{ gs.outprice }}</td>
+                                    <td>{{ gs.inventory }}</td>
+									<td>
+										<a href="/shoopinfo/update/{{ gs.goodsid}}"><button type="button" class="btn btn-xs btn-danger">修改</button></a>
+                                        <a href="/shoopinfo/?Gdid={{ gs.goodsid}}"><button type="button" class="btn btn-xs btn-danger " style="margin-left: 10%;">删除</button></a>
+									</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+						 </div>
+               </div>
+
+{% endblock %}

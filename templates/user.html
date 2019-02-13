@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block main %}
+               <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="">
+                                            <h5>员工详情 </h5>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-lg-offset-6 col-sm-offset-5 col-xs-offset-5">
+                                    <a href="/adduser"><button type="button" class="btn  btn-primary btn-sm">添加</button></a>
+                                </div>
+                            </div>
+
+                        <div class="ibox-content ">
+
+                            <table class="table table-bordered text-center">
+                                <thead >
+                                <tr >
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">姓名</th>
+                                    <th class="text-center">性别</th>
+									<th class="text-center">职位</th>
+                                    <th class="text-center">联系方式</th>
+									<th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for gs in u %}
+                                <tr>
+                                    <td>{{ gs.id }}</td>
+                                    <td>{{ gs.name }}</td>
+                                    <td>{{ gs.sex }}</td>
+									<td>{{ gs.post }}</td>
+                                    <td>{{ gs.phone }}</td>
+									<td>
+										<a href="/user/upuser/{{ gs.id}}"><button type="button" class="btn btn-xs btn-danger">修改</button></a>
+                                        <a href="/user/?uid={{ gs.id}}"><button type="button" class="btn btn-xs btn-danger " style="margin-left: 10%;">删除</button></a>
+									</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+						 </div>
+               </div>
+
+{% endblock %}

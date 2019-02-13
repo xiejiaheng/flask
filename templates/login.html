@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商场管理系统 | 登录</title>
+    <link rel="icon" href="/static/img/济南轨道交通-地铁 (2).ico" type="image/x-icon"/>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">MarKet</h1>
+            </div>
+            <h3>欢迎登录商场管理系统</h3>
+            <p>轻松掌握，实时跟踪</p>
+            <form class="m-t" role="form" action="/login" method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="用户名" name="username" >
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="密码" name="password">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control input-val ipt" placeholder="验证码" required="" style="width: 40%; float: left;">
+                    <canvas id="canvas" width="100" height="43" style="float: left; margin-left: 10%;"></canvas>
+                </div>
+
+
+                <input type="submit" class="btn btn-primary block full-width m-b" value="登录" id="submit" >
+            </form>
+             <div class="form-group">
+                   <h5>{{ cuowu }}</h5>
+                </div>
+            <p class="m-t"> <small>Copyright</strong> 商场管理系统 &copy; 2017-2018</small> </p>
+        </div>
+    </div>
+    <!-- Mainly scripts -->
+    <script src="/static/js/jquery-3.1.1.min.js"></script>
+    <script src="/static/s/bootstrap.min.js"></script>
+</body>
+        <script>
+    var show_num = [];
+    $(function () {
+        draw(show_num);//加载验证码
+        //看不清楚重新获取验证码
+        $("#canvas").on('click', function () {
+            draw(show_num);
+        })
+        $("#submit").click(function () {
+            check(); //数据提交前先检查验证码是否填写正确
+        })
+    })
+
+    function draw(show_num) {
+        var canvas_width = $('#canvas').width();
+        var canvas_height = $('#canvas').height();
+        var canvas = document.getElementById("canvas");//获取到canvas的对象，演员
+        var context = canvas.getContext("2d");//获取到canvas画图的环境，演员表演的舞台
+        canvas.width = canvas_width;
+        canvas.height = canvas_height;
+        var sCode = "A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0";
+        var aCode = sCode.split(",");
+        var aLength = aCode.length;//获取到数组的长度
+
+        for (var i = 0; i <= 3; i++) {
+            var j = Math.floor(Math.random() * aLength);//获取到随机的索引值
+            var deg = Math.random() * 30 * Math.PI / 180;//产生0~30之间的随机弧度
+            var txt = aCode[j];//得到随机的一个内容
+            show_num[i] = txt.toLowerCase();
+            var x = 10 + i * 20;//文字在canvas上的x坐标
+            var y = 20 + Math.random() * 8;//文字在canvas上的y坐标
+            context.font = "bold 23px 微软雅黑";
+            context.translate(x, y);
+            context.rotate(deg);
+            context.fillStyle = randomColor();
+            context.fillText(txt, 0, 0);
+            context.rotate(-deg);
+            context.translate(-x, -y);
+        }
+        for (var i = 0; i <= 5; i++) { //验证码上显示线条
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.stroke();
+        }
+        for (var i = 0; i <= 30; i++) { //验证码上显示小点
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            var x = Math.random() * canvas_width;
+            var y = Math.random() * canvas_height;
+            context.moveTo(x, y);
+            context.lineTo(x + 1, y + 1);
+            context.stroke();
+        }
+    }
+
+    function randomColor() {//得到随机的颜色值
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+
+
+    function check() {
+        var val = $(".input-val").val().toLowerCase();
+        var num = show_num.join("");
+        if (val == "") {
+            alert("请输入验证码");
+            return false;
+        } else if (val != num) {
+            alert('验证码错误！请重新输入！');
+            $(".input-val").val('');
+            setTimeout(function () {
+                draw(show_num);
+            }, 1000)
+            return false;
+        }
+        return true;
+    }
+</script>
+</html>
+
